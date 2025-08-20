@@ -1,0 +1,87 @@
+substitutions:
+  name: "esphome-shower-sensors"
+  friendly_name: Shower Sensors
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  min_version: 2024.6.0
+  name_add_mac_suffix: false
+  project:
+    name: esphome.web
+    version: dev
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+  level: WARN
+
+api:
+
+ota:
+- platform: esphome
+
+improv_serial:
+
+wifi:
+  ap: {}
+
+captive_portal:
+
+dashboard_import:
+  package_import_url: github://esphome/example-configs/esphome-web/esp32.yaml@main
+  import_full_config: true
+
+esp32_improv:
+  authorizer: none
+
+web_server:
+
+# DS18B20 temperature sensor on GPIO23
+one_wire:
+  - platform: gpio
+    pin: GPIO23
+    id: one_wire_bus
+
+sensor:
+  - platform: dallas_temp
+    name: "Water Temperature"
+    one_wire_id: one_wire_bus
+    update_interval: 2s
+
+  - platform: pulse_counter
+    pin: GPIO35
+    name: "Hot Water Flow"
+    id: hot_water_flow
+    update_interval: 2s
+    unit_of_measurement: "gal/min"
+    accuracy_decimals: 2
+    filters:
+      # 300 pulses per liter, according to specs
+      - multiply: 0.003333333
+      # 0.26417 = L to gal
+      - lambda: return x * 0.264172;
+    count_mode:
+      rising_edge: INCREMENT
+      falling_edge: DISABLE
+    internal_filter: 13us      
+
+  - platform: pulse_counter
+    pin: GPIO34
+    name: "Cold Water Flow"
+    id: cold_water_flow
+    update_interval: 2s
+    unit_of_measurement: "gal/min"
+    accuracy_decimals: 2
+    filters:
+      # 300 pulses per liter, according to specs
+      - multiply: 0.003333333
+      # 0.26417 = L to gal
+      - lambda: return x * 0.264172;
+    count_mode:
+      rising_edge: INCREMENT
+      falling_edge: DISABLE
+    internal_filter: 13us       
