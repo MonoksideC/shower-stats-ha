@@ -2,8 +2,6 @@
 
 ESP32‑based smart shower monitoring with two hall‑effect flow sensors (hot + cold), a DS18B20 temperature probe attached to the shower manifold, realtime dashboarding on Home Assistant, and a simple “shower session” tracker that totals water used and duration.
 
-https://github.com/<your-username>/smart-shower-ha
-
 ## Features
 - Tracks hot and cold flow separately (L/min or gal/min) and combined total flow
 - Temperature probe on manifold (fast and reliable with thermal compound + clamp)
