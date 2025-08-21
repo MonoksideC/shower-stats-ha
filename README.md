@@ -29,7 +29,7 @@ YAML lives in [`esphome/shower.yaml`](esphome/shower.yaml). It defines two `puls
 - Import the automations for session tracking: [`home-assistant/automations/`](link)
 
 ## Calibration
-Do a bucket test to find the exact pulses‑per‑liter (or per‑gallon) for your specific flow sensors. Instructions in [`docs/calibration.md`](docs/calibration.md).
+The flow sensors I used are specified at 300 pulses per liter, and the ESP config reflects that.  If you use different sensors, you can calibrate them but filling a 5 gallon bucket and comparing that to what the sensors show in the esphome dashboard.
 
 ## License
 This project is released under the [CC0 1.0 Public Domain Dedication](LICENSE).
