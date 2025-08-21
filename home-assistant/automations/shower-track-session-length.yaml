@@ -1,0 +1,15 @@
+alias: Shower - Track Session Length
+description: ""
+triggers:
+  - trigger: time_pattern
+    seconds: /1
+conditions:
+  - condition: state
+    entity_id: binary_sensor.shower_active
+    state: "on"
+actions:
+  - action: input_number.increment
+    target:
+      entity_id: input_number.shower_duration
+    data: {}
+mode: single

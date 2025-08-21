@@ -1,0 +1,21 @@
+alias: Shower - Track Water
+description: "Use current flow rate to calculate total water used."
+triggers:
+  - trigger: time_pattern
+    seconds: /1
+conditions:
+  - condition: state
+    entity_id: binary_sensor.shower_active
+    state: "on"
+actions:
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.shower_water_total
+    data:
+      value: |
+        {{ (
+                  states('input_number.shower_water_total') | float 
+                    + ((states('sensor.esphome_shower_temp_hot_water_flow') | float 
+                    + states('sensor.esphome_shower_temp_cold_water_flow') | float) / 60)
+                ) | round(2) }}
+mode: single
