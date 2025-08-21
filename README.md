@@ -9,7 +9,7 @@ ESP32‑based smart shower monitoring with two hall‑effect flow sensors (hot +
 - Records total water used per session and session duration
 
 ## Hardware Overview
-This build used a shower with a thermostatic valve feeding **three outputs** (body jets, rainfall head, hand sprayer). [`[hardware/BOM.md](https://www.amazon.com/dp/B0C2T9R7WP)`](link).  Thermostatic valves adjust the hot and cold water allowed through so that it keeps a set temperature.  Pretty nice, but infortunately, it makes it where I can't adjust the temperature from HA.  With that type of valve, if you were to, for example, use a valve and reduce the flow rate of the hot water, the thermostatic valve is just gonna reduce the amount of cold water allowed through.
+This build used a shower with a thermostatic valve feeding **three outputs** (body jets, rainfall head, hand sprayer). [`(https://www.amazon.com/dp/B0C2T9R7WP)`](link).  Thermostatic valves adjust the hot and cold water allowed through so that it keeps a set temperature.  Pretty nice, but infortunately, it makes it where I can't adjust the temperature from HA.  With that type of valve, if you were to, for example, use a valve and reduce the flow rate of the hot water, the thermostatic valve is just gonna reduce the amount of cold water allowed through.
 
 Also, because of the multi‑output manifold, the temp sensor is **not inline**.  It’s attached to the brass manifold with thermal paste and a pipe‑friendly clamp. Delay to track water temp is minimal once water is flowing so it works pretty well.  With a different shower, you might be able to use a fitting to put the temp sensor directly in the water flow.  
 
