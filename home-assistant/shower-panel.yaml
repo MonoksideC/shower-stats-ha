@@ -1,0 +1,251 @@
+wallpanel:
+  enabled: true
+  hide_sidebar: true
+  hide_toolbar: true
+  idle_time: 1200
+  screensaver_entity: input_boolean.shower_wallpanel_screensaver
+  image_url: http://picsum.photos/${width}/${height}?random=${timestamp}
+  image_fit_portrait: cover
+  media_list_update_interval: 3600
+theme: dark
+views:
+  - sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: subtitle
+          - type: custom:modern-circular-gauge
+            secondary:
+              entity: sensor.esphome_shower_temp_water_temperature
+              state_size: small
+              show_gauge: inner
+              min: 79.9
+              max: 110
+              needle: true
+              segments:
+                - from: 80
+                  color:
+                    - 0
+                    - 157
+                    - 255
+                - from: 95
+                  color:
+                    - 40
+                    - 255
+                    - 0
+                - from: 105
+                  color:
+                    - 255
+                    - 0
+                    - 0
+              show_state: true
+              adaptive_state_color: true
+              gauge_foreground_style:
+                opacity: 0.79
+                width: 3
+              show_unit: true
+              gauge_radius: 32
+              gauge_background_style:
+                opacity: 0.61
+                width: 1
+            tertiary:
+              state_text: ''
+              show_gauge: none
+              adaptive_state_color: false
+              show_state: true
+              show_unit: false
+            min: '0'
+            max: '900'
+            segments:
+              - from: 0
+                color:
+                  - 43
+                  - 255
+                  - 0
+              - from: 600
+                color:
+                  - 255
+                  - 136
+                  - 0
+              - from: 720
+                color:
+                  - 255
+                  - 0
+                  - 0
+            needle: false
+            adaptive_icon_color: true
+            entity: input_number.shower_duration
+            state_text: >-
+              {% set total_seconds = states('input_number.shower_duration') |
+              int %}
+                        {% set minutes = total_seconds // 60 %}
+                        {% set seconds = total_seconds % 60 %}
+                        {{ minutes }}m {{ seconds }}s
+            show_unit: false
+            show_state: true
+            gauge_foreground_style:
+              opacity: 0.23
+              width: 6
+            adaptive_state_color: false
+            icon: mdi:shower-head
+            header_position: bottom
+            start_from_zero: false
+            smooth_segments: false
+            show_icon: true
+            show_header: false
+            gauge_background_style:
+              width: 6
+              opacity: 0.26
+            grid_options:
+              columns: 12
+              rows: 7
+            gauge_radius: 40
+            icon_entity: secondary
+          - type: custom:mushroom-template-card
+            entity: sensor.esphome_shower_temp_water_temperature
+            secondary: >-
+              {% set t = states("sensor.esphome_shower_temp_water_temperature")
+              | float %} {% if t < 88 %}
+                Too Cold ❄️
+              {% elif t <= 100 %}
+                Warming Up ♨️
+              {% elif t <= 105 %}
+                Just Right 🚿
+              {% else %}
+                Too Hot 🔥
+              {% endif %}
+            icon: mdi:thermometer
+            layout: vertical
+            fill_container: true
+            multiline_secondary: false
+            icon_color: >-
+              {% set t = states("sensor.esphome_shower_temp_water_temperature")
+              | float %} {% if t < 88 %}
+                blue
+              {% elif t <= 100 %}
+                teal
+              {% elif t <= 105 %}
+                green
+              {% else %}
+                red
+              {% endif %}
+            grid_options:
+              columns: 6
+              rows: 2
+            primary: ''
+          - type: tile
+            entity: input_number.shower_water_total
+            features_position: bottom
+            vertical: true
+            grid_options:
+              columns: 6
+              rows: 2
+            name: Water Used
+            icon: mdi:waves
+            color: primary
+          - type: tile
+            entity: sensor.esphome_shower_temp_hot_water_flow
+            features_position: bottom
+            vertical: true
+            icon: mdi:waves-arrow-right
+            name: Hot Water
+            color: red
+            grid_options:
+              rows: 2
+              columns: 6
+          - type: tile
+            entity: sensor.esphome_shower_temp_cold_water_flow
+            features_position: bottom
+            vertical: true
+            name: Cold Water
+            icon: mdi:waves-arrow-right
+            color: blue
+            grid_options:
+              columns: 6
+              rows: 2
+          - type: heading
+            heading: Now Playing
+            heading_style: title
+          - type: custom:mini-media-player
+            name: Bathroom Speaker
+            entity: media_player.bathroom_echo
+            sound_mode: icon
+            artwork: cover-fit
+            toggle_power: false
+            info: short
+            source: icon
+            group: false
+            volume_stateless: false
+            hide:
+              prev: true
+              next: true
+              play_pause: true
+              runtime: false
+              power: true
+              source: true
+              volume: true
+              artwork_border: false
+              name: null
+            grid_options:
+              columns: full
+              rows: 2
+        visibility:
+          - condition: numeric_state
+            entity: sensor.esphome_shower_temp_hot_water_flow
+            above: 0.2
+      - type: grid
+        cards:
+          - type: heading
+            heading: Last Shower
+            heading_style: title
+          - type: tile
+            entity: sensor.shower_duration_display
+            features_position: bottom
+            vertical: true
+            grid_options:
+              columns: 6
+              rows: 1
+            icon: mdi:clock-time-eight
+            name: Duration
+          - type: tile
+            entity: input_number.shower_water_total
+            features_position: bottom
+            vertical: true
+            grid_options:
+              columns: 6
+              rows: 2
+            icon: mdi:waves
+            name: Water Used
+          - type: heading
+            heading: Now Playing
+            heading_style: title
+          - type: custom:mini-media-player
+            name: Bathroom Speaker
+            entity: media_player.bathroom_echo
+            sound_mode: icon
+            artwork: cover-fit
+            toggle_power: false
+            info: short
+            source: icon
+            group: false
+            volume_stateless: false
+            hide:
+              prev: true
+              next: true
+              play_pause: true
+              runtime: false
+              power: true
+              source: true
+              volume: true
+              artwork_border: false
+              name: null
+            grid_options:
+              columns: full
+              rows: 2
+        visibility:
+          - condition: numeric_state
+            entity: sensor.esphome_shower_temp_hot_water_flow
+            below: 0.2
+    type: sections
+    max_columns: 4
+    cards: []
